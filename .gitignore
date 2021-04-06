@@ -4,5 +4,6 @@
 
 dist/
 Pipfile.lock
-
+*.log
 discoideum_polypeptide.fasta
+__pycache__

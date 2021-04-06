@@ -1,6 +1,6 @@
 import unittest
 
-from pts1_prediction_tool.pts1_prediction import PTS1_Predictor
+from pts1_prediction_tool import pts1_prediction
 
 
 class Test_pts1_prediction(unittest.TestCase):
@@ -8,7 +8,7 @@ class Test_pts1_prediction(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         print("Test Start")
-        cls.predictor = PTS1_Predictor()
+        cls.predictor = pts1_prediction.PTS1_Predictor()
 
     def setUp(self):
         print("Test Start")
@@ -17,21 +17,21 @@ class Test_pts1_prediction(unittest.TestCase):
         print("Test Ende")
 
     def test_predictor_constants(self):
-        self.assertEqual(self.predictor.PEROXISOMAL, 1)
-        self.assertEqual(self.predictor.NOT_PEROXISOMAL, 0)
-        self.assertEqual(len(self.predictor.AMINOACID_ONE_LETTERCODE), 22)
+        self.assertEqual(pts1_prediction.PEROXISOMAL, 1)
+        self.assertEqual(pts1_prediction.NOT_PEROXISOMAL, 0)
+        self.assertEqual(len(pts1_prediction.AMINOACID_ONE_LETTERCODE), 22)
 
-    def test_isupper(self):
-        self.assertTrue('FOO'.isupper())
-        self.assertFalse('Foo'.isupper())
+    def test_single_prediction(self):
+        test_aa_seq = str('MALNFKDKVVIVTGAGGGIGKVYALEFAKRGAKVVVNDLGGSHTGQGSSSKAADKVVEEIKAAGGTAVANYDSVEDGEKIVQTAMDSFGGVDILINNAGILRDVSFG'+
+        'KMTDGDWDLVYRVHAKGAYKLSRAAWNHMREKNFGRIIMTSSAAGLYGNFGQANYGSMKMALVGLSNTLAQEGKSKNIHCNTIAPIAASRLTESVMPPEILEQMKPD' +
+        'YIVPLVLYLCHQDTTETGGVFEVGAGWVSKVRLQRSAGVYMKDLTPEKIKDNWAQIESFDNPSYPTSASESVSGILAAVNSKPADGESVLVRPPKVAVPKALAATPS' +
+        'GSVVVDGYNASKIFTTIQGNIGAKGAELVKKINGIYLINIKKGTNTQAWALDLKNGSGSIVVGAGSTKPNVTITVSDEDFVDIMTGKLNAQSAFTKGKLKISGNMGLA' +
+        'TKLGALMQGSKL')
 
-    def test_split(self):
-        s = 'hello world'
-        self.assertEqual(s.split(), ['hello', 'world'])
-        # check that s.split fails when the separator is not a string
-        with self.assertRaises(TypeError):
-            s.split(2)
+        pred_result = self.predictor.single_prediction(test_aa_seq)
+        self.assertEqual(pred_result.prediction, 1)
+        self.assertEqual(pred_result.aa_seq, test_aa_seq)
+
 
 if __name__ == '__main__':
     unittest.main()
-
