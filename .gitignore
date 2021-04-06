@@ -1,2 +1,8 @@
 *.xlsx
 *.png
+*.egg-info
+
+dist/
+Pipfile.lock
+
+discoideum_polypeptide.fasta
