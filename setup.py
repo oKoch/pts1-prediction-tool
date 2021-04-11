@@ -14,7 +14,14 @@ setup(
     url='https://github.com/oKoch/pts1-prediction-tool',
     long_description=long_description,
     long_description_content_type="text/markdown",
-    packages=['pts1_prediction_tool'],
+    packages=find_packages(include=['pts1_prediction_tool', 'pts1_prediction_tool.*']),
+    install_requires=[
+            "numpy==1.20.0",
+            "bio==1.78",
+            "pandas==1.2.3",
+            "sklearn==0.24.1",
+            "openpyxl"
+        ],
     # package_dir={"": "pts1_prediction_tool"},
     python_requires=">=3.6",
     package_data={

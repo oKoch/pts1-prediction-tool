@@ -9,10 +9,9 @@ bio = "1.78"
 pandas = "1.2.3"
 sklearn = "0.24.1"
 openpyxl="*"
-setuptools = "*"
-build = "*"
 
 [dev-packages]
+setuptools = "*"
 
 [requires]
 python_version = "3.8"
