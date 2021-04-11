@@ -37,7 +37,7 @@ class PTS1_Predictor():
 
     def __init__(self):
         '''
-        The svm-parameters are evaluated by 5-fold-cross-validation. These offers a svm with the following quality metrics:
+        The svm-parameters are determined by 5-fold-cross-validation. These offers a svm with the following quality metrics:
         Specifity = 1.0
         Sensitivity = 0.86
         Precision = 0.98
@@ -137,7 +137,7 @@ class PTS1_Predictor():
 
         A PTS1PredictionResult is returned. If any error occures, NONE is returned.
         :param aa_seq:
-        :return PTS1PredictionResult:
+        :return PTS1PredictionResult or None:
         """
         try:
             prepared_aa_sequence = self._prepare_sequences(aa_seq)
