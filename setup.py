@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='pts1_prediction_tool',
-    version='1.0.0',
+    version='1.0.1',
     description='Tool for predicting a PTS1 (peroxisomal targeting sequence 1) in a amino acid sequence.',
     license='BSD-3',
     author='Oliver Koch',
@@ -16,10 +16,10 @@ setup(
     long_description_content_type="text/markdown",
     packages=find_packages(include=['pts1_prediction_tool', 'pts1_prediction_tool.*']),
     install_requires=[
-            "numpy==1.20.0",
-            "bio==1.78",
-            "pandas==1.2.3",
-            "sklearn==0.24.1",
+            "numpy",
+            "bio",
+            "pandas",
+            "sklearn",
             "openpyxl"
         ],
     # package_dir={"": "pts1_prediction_tool"},

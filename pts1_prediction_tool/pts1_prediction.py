@@ -1,3 +1,13 @@
+'''
+pts1-prediction-tool
+https://github.com/oKoch/pts1-prediction-tool
+
+Author: Oliver Koch
+@Copyright Oliver Koch
+
+Created: 11.04.2021
+'''
+
 import logging
 import os
 import sys
@@ -14,7 +24,7 @@ PARENT = os.path.dirname(CURRENT)
 sys.path.append(PARENT)
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-logging.basicConfig(filename='logs.log', level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 PEROXISOMAL = 1
 NOT_PEROXISOMAL = 0
@@ -57,16 +67,16 @@ class PTS1_Predictor():
         targeted_concat.extend(pos_targeted)
         targeted_concat.extend(neg_targeted)
 
-        # Erstellt den Header für die Stellen vom C-terminus (-12, -11, -10, ... -1)
+        # Creates Header for C-terminal places (-12, -11, -10, ... -1)
         columns = [str(x) for x in list(range(AA_LENGTH, 0))]
 
         # Dataframes mit Einordnung der Aminosäuresequenzen zum Einbuchstabencode
         df_seq = pd.DataFrame(np.array(seq_concat_data), columns=columns)
         df_cat = df_seq.astype(CategoricalDtype(
             categories=AMINOACID_ONE_LETTERCODE))
-        # Übersetzung der Aminosäuren in binäre Zahlwerte
+        # Translate amino acids into a binary form
         seq_dummies = pd.get_dummies(df_cat)
-        # Klassifikationen 0/1 der zusammengeführten Sequenzen:
+        # Classification of the merged sequences to 0=non_pox,1=pox
         df_targeted = pd.DataFrame(np.array(targeted_concat), columns=['Targeted'])
         return columns, df_targeted, seq_dummies
 
@@ -76,17 +86,16 @@ class PTS1_Predictor():
         targeted = []
 
         for entry in raw:
-            # Vereinheitlichung der Aminosäuresequenz zu Großbuchstaben
+
             seq = str(entry.seq).upper()
-            # Aussortieren zu kurzer Aminosäuresequenzen
+            # Sorts out to short amino acids
             if (len(seq) < (-1 * AA_LENGTH)):
                 continue
 
-            # Aussortieren der doppelten Aminosäuresequenzen
+            # Sorts out duplicate amino acid sequences
             if seq not in aminoacid_sequences:
-                # Vorbereitung Aussortierung doppelter Sequenzen
                 aminoacid_sequences.append(seq)
-                # Verkürzen der Sequenz auf letzten stellen vom c-terminus, und umwandlung zu liste, Entfernen des c-terminus sternchen im string
+                # Shorten sequences to the last c-terminal places
                 aminoacid_seq = list(seq.replace('*', '')[AA_LENGTH:])
                 targeted.append(is_targeted)
                 prepared_seq.append(aminoacid_seq)
