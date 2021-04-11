@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='pts1_prediction_tool',
-    version='1.0.1',
+    version='1.0.2',
     description='Tool for predicting a PTS1 (peroxisomal targeting sequence 1) in a amino acid sequence.',
     license='BSD-3',
     author='Oliver Koch',

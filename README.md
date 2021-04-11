@@ -1,8 +1,11 @@
 # pts1-prediction-tool
 This project offers a classification-algorithm for predicting the peroxisomal targeting signal 1 (PTS1) in a given amino acid sequence (primary structure of a protein).
 
+Actual version: 1.0.2
 ## Installation
-``` pip install pts1-prediction-tool==1.0.0 ```
+``` pip install pts1-prediction-tool```
+
+PyPi: https://pypi.org/project/pts1-prediction-tool/
 ## Userguide:
 Simple example for using the pts1-prediction-tool in your application.
 ```python
