@@ -114,36 +114,49 @@ class PTS1_Predictor():
         model = svm.fit(X, y)
         return model, columns
 
-    def _prepare_sequences(self, raw_aminoacid_sequences: list):
+    def _prepare_sequences(self, raw_aminoacid_sequence :str):
         prepared_seq = []
-        for entry in raw_aminoacid_sequences:
-            seq = str(entry).upper()
-            if (len(seq) < (-1 * AA_LENGTH)):
-                logging.warn(f'Aminoacidsequence is to short. The sequence {seq} is not handled.')
-                continue
 
-            aminoacid_seq = list(seq.replace('*', '')[AA_LENGTH:])
-            prepared_seq.append(aminoacid_seq)
+        seq = str(raw_aminoacid_sequence).upper()
+        if (len(seq) < (-1 * AA_LENGTH)):
+            logging.error(f'Aminoacidsequence is to short. The sequence {seq} is not handled.')
+            raise Exception(f'Aminoacidsequence is to short. The sequence {seq} is not handled.')
+
+        aminoacid_seq = list(seq.replace('*', '')[AA_LENGTH:])
+        prepared_seq.append(aminoacid_seq)
 
         df_seq_dicty = pd.DataFrame(np.array(prepared_seq), columns=self.columns)
         df_categorical = df_seq_dicty.astype(CategoricalDtype(categories=AMINOACID_ONE_LETTERCODE))
 
         return pd.get_dummies(df_categorical)
 
-    def single_prediction(self, aa_seq: str):
-        prepared_aa_sequences = self._prepare_sequences([aa_seq])
-        predictions = self.trained_model.predict(prepared_aa_sequences)
-        return PredictionResult(aa_seq=aa_seq, prediction=predictions[0])
+    def check_for_pts1(self, aa_seq: str):
+        """
+        Checks a aminoacidsequence (aa_seq :str) for an existing PTS1 (peroxisomal targeting sequence 1).
+        The aa_seq has to be a fasta like string. The String should start with the N-Terminus and end with the C-Terminus.
 
-    def predict(self, aa_acids):
-        logging.info("NOT Implemented")
+        A PTS1PredictionResult is returned. If any error occures, NONE is returned.
+        :param aa_seq:
+        :return PTS1PredictionResult:
+        """
+        try:
+            prepared_aa_sequence = self._prepare_sequences(aa_seq)
+            predictions = self.trained_model.predict(prepared_aa_sequence)
+            return PTS1PredictionResult(aa_seq=aa_seq, prediction=predictions[0])
+        except Exception as ex:
+            logging.error(f'The following error occured,{ex}')
+            return None
 
 
-class PredictionResult():
+class PTS1PredictionResult():
 
     def __init__(self, aa_seq: str, prediction: int):
         self.aa_seq = aa_seq
         self.prediction = prediction
+        self.isPeroxisomal = False
+
+        if prediction == PEROXISOMAL:
+            self.isPeroxisomal = True
 
 # Only for testing purpose:
 # if __name__ == "__main__":

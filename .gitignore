@@ -3,6 +3,7 @@
 *.egg-info
 
 dist/
+build/
 Pipfile.lock
 *.log
 discoideum_polypeptide.fasta

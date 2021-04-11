@@ -4,4 +4,5 @@ This project offers a classification-algorithm for predicting the peroxisomal ta
 The aminosequences for the learning sets are downloaded from UniProt (https://www.uniprot.org/), 23.07.2020.
 
 Run test with: \
-```python -m unittest pts1_prediction_tool/tests/pts1_prediction_tests.py ```
+```pipenv shell  ``` \
+```python -m unittest tests/pts1_prediction_tests.py ```
